@@ -34,7 +34,22 @@ void input_date(day, month, year) {
  * @return int 1, falls das Jahr ein Schaltjahr ist; 0, falls das Jahr kein Schaltjahr ist.
  */
 int is_leapyear(int year) {
+    int leapYearTrue = 0;
 
+    if (year % 4 == 0) { //Jahr durch 4 teilbar
+        if (year % 100 == 0) { //Jahr durch 4 und durch 100 teilbar
+            if (year % 400 == 0) { //Jahr durch 4, 100 und 400
+                leapYearTrue = 1;
+            } else {
+                leapYearTrue = 0; //Jahr durch 4, 100 und nicht 400 teilbar
+            }
+        } else {
+            leapYearTrue = 1; //Jahr durch 4 und nicht durch 100 teilbar
+        }
+    } else {
+        leapYearTrue = 0; //Jahr nicht durch 4 teilbar
+    }
+    return leapYearTrue;
 }
 
 /**
@@ -70,8 +85,10 @@ int exists_date(int day, int month, int year) {
  * @return int Ergebnis der Berechnung
  */
 int day_of_the_year(int day, int month, int year) {
+    int dayOfYear;
 
-    return 0;
+
+    return dayOfYear;
 }
 
 int main() {
