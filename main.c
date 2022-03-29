@@ -109,6 +109,11 @@ int exists_date(int day, int month, int year) {
 int day_of_the_year(int day, int month, int year) {
     int dayOfYear;
 
+    for (int i = 0; i < month; i++) {
+        dayOfYear += get_days_for_month(i, year);
+    }
+
+    dayOfYear += day;
 
     return dayOfYear;
 }
