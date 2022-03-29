@@ -156,10 +156,12 @@ void input_date(int *day, int *month, int *year) {
 int day_of_the_year(int day, int month, int year) {
     int dayOfYear;
 
+    //Addiere die Tage aller Monate vor dem Monat, in dem der Tag ist
     for (int i = 0; i < month - 1; i++) {
         dayOfYear += get_days_for_month(i, year);
     }
 
+    //Addiere den Tag
     dayOfYear += day;
 
     return dayOfYear;
@@ -170,7 +172,10 @@ int main() {
     int month = 0;
     int year = 0;
 
+    //Rufe Funktionen auf
     input_date(&day, &month, &year);
+    
+    //Ausgabe der Berechnungen
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
     return 0;
 }
