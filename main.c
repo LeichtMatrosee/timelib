@@ -61,7 +61,13 @@ int is_leapyear(int year) {
  * Jahr übergeben wurde.
  */
 int get_days_for_month(int month, int year) {
+    int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    
+    if (is_leapear(year)) {
+        daysInMonth[1] = 29;
+    }
 
+    return daysInMonth[month - 1];
 }
 
 /**
@@ -73,7 +79,23 @@ int get_days_for_month(int month, int year) {
  * @return int 1, falls es existiert; 0, falls es nicht existiert
  */
 int exists_date(int day, int month, int year) {
+    int existCheck = 1;
+    if (year < 1582 || year > 2400) {
+        printf("Das Jahr liegt nicht im zulässigen Bereich (1582 - 2400), bitte geben sie ein anderes Jahr ein.\n");
+        existCheck = 0;
+    }
 
+    if (month < 1 || month > 12) {
+        printf("Der angegebene Monat existiert nicht, bitte gegen sie einen Monat zwischen 1 und 12 ein.\n");
+        existCheck = 0;
+    }
+
+    if (month < 1 || month > 12) {
+        printf("Der angegebene Tag existiert nicht, bitte geben sie einen Tag zwischen 1 und %i ein.\n", get_days_for_month(month, year));
+        existCheck = 0;
+    }
+
+    return existCheck;
 }
 
 /**
