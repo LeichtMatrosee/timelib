@@ -22,31 +22,6 @@ int clearBuffer() {
     };
     return 0;
 }
-
-void input_date(int *day, int *month, int *year) {
-    
-    do {
-        printf("Bitte geben sie den Tag ein: ");
-        while (!scanf("%i", day)) {
-            clearBuffer();
-            continue;
-        }
-
-        printf("Bitte geben sie den Monat ein: ");
-        while (!scanf("%i", month)) {
-            clearBuffer();
-            continue;
-        }
-
-        printf("Bitte geben sie den Tag ein: ");
-        while (!scanf("%i", day)) {
-            clearBuffer();
-            continue;
-        }
-    } while (!exists_date(day, month, year));
-
-}
-
 /**
  * @brief Überprüft, ob ein Jahr ein Schaltjahr ist
  * 
@@ -81,13 +56,17 @@ int is_leapyear(int year) {
  * Jahr übergeben wurde.
  */
 int get_days_for_month(int month, int year) {
+    //Monatsarray initialisieren
     int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     
-    if (is_leapear(year)) {
+    //Falls das Jahr ein Schaltjahr ist, den Monatsarray so mutieren, dass der Februar 29 Tage hat, ansonsten 28
+    if (is_leapyear(year)) {
         daysInMonth[1] = 29;
+    } else {
+        daysInMonth[1] = 28;
     }
 
-    return daysInMonth[month - 1];
+    return daysInMonth[month];
 }
 
 /**
@@ -102,27 +81,68 @@ int exists_date(int day, int month, int year) {
     int existCheck = 1;
 
     printf("\n******************************************************\n");
+
+    //Jahr im angegebenen Zeitrahmen?
     if (year < 1582 || year > 2400) {
-        printf("Das Jahr liegt nicht im zulässigen Bereich (1582 - 2400), bitte geben sie ein anderes Jahr ein.\n");
+        printf("Das Jahr liegt nicht im zulassigen Bereich (1582 - 2400), bitte geben sie ein anderes Jahr ein.\n");
         existCheck = 0;
     }
 
+    //Existiert der Monat?
     if (month < 1 || month > 12) {
         printf("Der angegebene Monat existiert nicht, bitte gegen sie einen Monat zwischen 1 und 12 ein.\n");
         existCheck = 0;
     }
 
-    if (month < 1 || month > 12) {
+    //Tag im Monat existent?
+    if (day < 1 || day > get_days_for_month(month, year)) {
         printf("Der angegebene Tag existiert nicht, bitte geben sie einen Tag zwischen 1 und %i ein.\n", get_days_for_month(month, year));
         existCheck = 0;
     }
 
+    //Falls das Datum gültig ist, das bestätigen
     if (existCheck == 1) {
-        printf("Das eingegebene Datum ist gültig.\n");
+        printf("Das eingegebene Datum ist gueltig.\n");
     }
     printf("******************************************************\n\n");
 
     return existCheck;
+}
+/**
+ * @brief Man gibt das Datum ein und macht einen Callback, ob das Datum existiert
+ * 
+ * @param day {POINTER} Zeigt auf die Tagesvariable in der Main
+ * @param month {POINTER} Zeigt auf die Monatsvariable in der Main
+ * @param year {POINTER} Zeigt auf die Jahresvariable in der Main
+ */
+void input_date(int *day, int *month, int *year) {
+    
+    do {
+        //Tag eingeben
+        printf("Bitte geben sie den Tag ein: ");
+        while (!scanf("%i", day)) {
+            printf("Ein Tag ist eine Zahl...\n");
+            clearBuffer();
+            continue;
+        }
+
+        //Monat eingeben
+        printf("Bitte geben sie den Monat ein: ");
+        while (!scanf("%i", month)) {
+            printf("Ein Monat ist eine Zahl...\n");
+            clearBuffer();
+            continue;
+        }
+
+        //Jahr eingeben
+        printf("Bitte geben sie das Jahr ein: ");
+        while (!scanf("%i", year)) {
+            printf("Ein Jahr ist eine Zahl...\n");
+            clearBuffer();
+            continue;
+        }
+    } while (!exists_date(*day, *month, *year)); //solange, bis das Datum existiert
+
 }
 
 /**
@@ -136,7 +156,7 @@ int exists_date(int day, int month, int year) {
 int day_of_the_year(int day, int month, int year) {
     int dayOfYear;
 
-    for (int i = 0; i < month; i++) {
+    for (int i = 0; i < month - 1; i++) {
         dayOfYear += get_days_for_month(i, year);
     }
 
@@ -146,11 +166,11 @@ int day_of_the_year(int day, int month, int year) {
 }
 
 int main() {
-    int day;
-    int month;
-    int year;
+    int day = 0;
+    int month = 0;
+    int year = 0;
 
     input_date(&day, &month, &year);
-    printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2018));
+    printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
     return 0;
 }
