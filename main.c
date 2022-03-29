@@ -29,6 +29,11 @@ int clearBuffer() {
  * @return int 1, falls das Jahr ein Schaltjahr ist; 0, falls das Jahr kein Schaltjahr ist.
  */
 int is_leapyear(int year) {
+    //Überprüfung, ob das Jahr valide ist (in diesem Programm überflüssig)
+    if (year < 1528) {
+        return -1;
+    }
+
     int leapYearTrue = 0;
 
     if (year % 4 == 0) { //Jahr durch 4 teilbar
@@ -59,6 +64,17 @@ int get_days_for_month(int month, int year) {
     //Monatsarray initialisieren
     int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     
+    //Überprüfung, ob Monat gültig ist
+    /**
+    if (month < 1 || month > 12) {
+        return -1;
+    }
+    */
+    //Überprüfung, ob Jahr gültig ist (wann ein Jahr gültig ist aus dem Kontext anderer Funktionen erarbeitet)
+    if (year < 1528) {
+        return -1;
+    }
+
     //Falls das Jahr ein Schaltjahr ist, den Monatsarray so mutieren, dass der Februar 29 Tage hat, ansonsten 28
     if (is_leapyear(year)) {
         daysInMonth[1] = 29;
@@ -66,7 +82,7 @@ int get_days_for_month(int month, int year) {
         daysInMonth[1] = 28;
     }
 
-    return daysInMonth[month];
+    return daysInMonth[month - 1];
 }
 
 /**
@@ -79,8 +95,6 @@ int get_days_for_month(int month, int year) {
  */
 int exists_date(int day, int month, int year) {
     int existCheck = 1;
-
-    printf("\n******************************************************\n");
 
     //Jahr im angegebenen Zeitrahmen?
     if (year < 1582 || year > 2400) {
@@ -100,16 +114,14 @@ int exists_date(int day, int month, int year) {
         existCheck = 0;
     }
 
-    //Falls das Datum gültig ist, das bestätigen
-    if (existCheck == 1) {
-        printf("Das eingegebene Datum ist gueltig.\n");
+    if (!existCheck) {
+        printf("\n");
     }
-    printf("******************************************************\n\n");
-
     return existCheck;
 }
 /**
- * @brief Man gibt das Datum ein und macht einen Callback, ob das Datum existiert
+ * @brief Die Funktion liest 3 Ganzzahlwerte (Integer) ein, für Tag, Monat und Jahr. Wenn das angegebene Datum 
+ * ungültig ist, wird erneut eingelesen, solange bis ein gültiges Datum eingegeben wurde.
  * 
  * @param day {POINTER} Zeigt auf die Tagesvariable in der Main
  * @param month {POINTER} Zeigt auf die Monatsvariable in der Main
@@ -141,7 +153,7 @@ void input_date(int *day, int *month, int *year) {
             clearBuffer();
             continue;
         }
-    } while (!exists_date(*day, *month, *year)); //solange, bis das Datum existiert
+    } while (!exists_date(*day, *month, *year) || (exists_date(*day, *month, *year) == -1)); //solange, bis das Datum existiert
 
 }
 
@@ -151,13 +163,18 @@ void input_date(int *day, int *month, int *year) {
  * @param day Eingegebener Tag
  * @param month Eingegebener Monat
  * @param year Eingegebenes Jahr
- * @return int Ergebnis der Berechnung
+ * @return int Ergebnis der Berechnung oder -1, falls das Datum ungültig ist.
  */
 int day_of_the_year(int day, int month, int year) {
-    int dayOfYear;
+    //Überprüfung, ob das Datum existiert
+    if (!exists_date(day, month, year)) {
+        return -1;
+    }
+    
+    int dayOfYear = 0;
 
     //Addiere die Tage aller Monate vor dem Monat, in dem der Tag ist
-    for (int i = 0; i < month - 1; i++) {
+    for (int i = 0; i < month; i++) {
         dayOfYear += get_days_for_month(i, year);
     }
 
