@@ -14,14 +14,11 @@
 
 /**
  * @brief Leert den Eingabebuffer
- * 
- * @return int 
  */
-int clearBuffer() {
+void clearBuffer() {
     while (getchar() != '\n') {
         continue;
     };
-    return 0;
 }
 /**
  * @brief Überprüft, ob ein Jahr ein Schaltjahr ist
@@ -65,12 +62,6 @@ int get_days_for_month(int month, int year) {
     //Monatsarray initialisieren
     int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     
-    //Überprüfung, ob Monat gültig ist
-    /**
-    if (month < 1 || month > 12) {
-        return -1;
-    }
-    */
     //Überprüfung, ob Jahr gültig ist (wann ein Jahr gültig ist aus dem Kontext anderer Funktionen erarbeitet)
     if (year < 1528) {
         return -1;
@@ -201,7 +192,7 @@ int day_of_the_week(int day, int month, int year) {
         dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
         + ceil(year / 4) + ceil(floor(year / 100)));
 
-        dayOfTheWeek = dayOfTheWeek %7;
+        dayOfTheWeek = (dayOfTheWeek %7 )-1;
     }
     return dayOfTheWeek;
 }
@@ -218,7 +209,7 @@ int number_of_the_week(int day, int month, int year) {
     int startDayOfYear = day_of_the_week(day, month, year);
     int dayOfTheYear = day_of_the_year(day, month, year);
 
-    int weekNumber = floor(dayOfTheYear);
+    int weekNumber = floor(dayOfTheYear / 7);
 
     return weekNumber;
 }
@@ -258,9 +249,9 @@ int main() {
     
     //Ausgabe der Berechnungen
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
-    printf("Kalenderwoche: %i.\n", number_of_the_week(day, month, year));
+    printf("Kalenderwoche: %i\n", number_of_the_week(day, month, year));
     printf("Wochentag: ");
-    format_day(dayOfTheWeek(day, month, year));
+    format_day(day_of_the_week(day, month, year));
 
     
     return 0;
