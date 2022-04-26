@@ -209,7 +209,7 @@ int number_of_the_week(int day, int month, int year) {
     int startDayOfYear = day_of_the_week(day, month, year);
     int dayOfTheYear = day_of_the_year(day, month, year);
 
-    int weekNumber = floor(dayOfTheYear / 7);
+    int weekNumber = ceil(dayOfTheYear / 7);
 
     return weekNumber;
 }
