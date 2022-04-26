@@ -10,6 +10,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 /**
  * @brief Leert den Eingabebuffer
@@ -184,6 +185,69 @@ int day_of_the_year(int day, int month, int year) {
     return dayOfYear;
 }
 
+/**
+ * @brief Gibt den Wochentag eines Datums anhand von Tag, Monat und Jahr aus
+ * 
+ * @param day Tag des Datums
+ * @param month Monat des Datums
+ * @param year Jahr des Datums
+ * @return int Wochentag (1=Montag, 2=Dienstag...)
+ */
+int day_of_the_week(int day, int month, int year) {
+    int dayOfTheWeek = 0;
+
+    if (exists_date(day, month, year)) {
+        //Courtesy of https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
+        dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
+        + ceil(year / 4) + ceil(floor(year / 100)));
+
+        dayOfTheWeek = dayOfTheWeek %7;
+    }
+    return dayOfTheWeek;
+}
+
+/**
+ * @brief Berechnet anhand eines Datums die Kalenderwoche
+ * 
+ * @param day Tag des Datums
+ * @param month Monat des Datums
+ * @param year Jahr des Datums
+ * @return int Kalenderwoche
+ */
+int number_of_the_week(int day, int month, int year) {
+    int startDayOfYear = day_of_the_week(day, month, year);
+    int dayOfTheYear = day_of_the_year(day, month, year);
+
+    int weekNumber = floor(dayOfTheYear);
+
+    return weekNumber;
+}
+
+/**
+ * @brief gibt anhand der Nummer des Tages der Woche die korrekte Bezeichnung des Tages aus.
+ * 
+ * @param dayNumber 
+ */
+void format_day(int dayNumber) {
+    if (dayNumber == 1) {
+        printf("Montag");
+    } else if (dayNumber == 2) {
+        printf("Dienstag");
+    } else if (dayNumber == 3) {
+        printf("Mittwoch");
+    } else if (dayNumber == 4) {
+        printf("Donnerstag");
+    } else if (dayNumber == 5) {
+        printf("Freitag");
+    } else if (dayNumber == 6) {
+        printf("Samstag");
+    } else if (dayNumber == 7) {
+        printf("Sonntag");
+    } else {
+        printf("ungültige Tageszahl");
+    }
+}
+
 int main() {
     int day = 0;
     int month = 0;
@@ -194,5 +258,10 @@ int main() {
     
     //Ausgabe der Berechnungen
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
+    printf("Kalenderwoche: %i.\n", number_of_the_week(day, month, year));
+    printf("Wochentag: ");
+    format_day(dayOfTheWeek(day, month, year));
+
+    
     return 0;
 }
