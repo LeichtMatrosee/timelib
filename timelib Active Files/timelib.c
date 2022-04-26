@@ -65,7 +65,7 @@ int get_days_for_month(int month, int year) {
         daysInMonth[1] = 28;
     }
 
-    return daysInMonth[month - 1];
+    return daysInMonth[month];
 }
 
 /**
@@ -157,7 +157,7 @@ int day_of_the_year(int day, int month, int year) {
     int dayOfYear = 0;
 
     //Addiere die Tage aller Monate vor dem Monat, in dem der Tag ist
-    for (int i = 0; i < month; i++) {
+    for (int i = 1; i < month; i++) {
         dayOfYear += get_days_for_month(i, year);
     }
 
@@ -197,7 +197,6 @@ int day_of_the_week(int day, int month, int year) {
  * @return int Kalenderwoche
  */
 int number_of_the_week(int day, int month, int year) {
-    int startDayOfYear = day_of_the_week(day, month, year);
     int dayOfTheYear = day_of_the_year(day, month, year);
 
     int weekNumber = ceil(dayOfTheYear / 7);
