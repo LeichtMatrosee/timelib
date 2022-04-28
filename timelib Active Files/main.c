@@ -23,7 +23,13 @@ int main() {
     
     //Ausgabe der Berechnungen
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
-    printf("Kalenderwoche: %i\n", number_of_the_week(day, month, year));
+    printf("Kalenderwoche: %i", number_of_the_week(day, month, year));
+    if (number_of_the_week(day, month, year) == 0) {
+        int weekLastYear = number_of_the_week(31, 12, year - 1);
+        printf(" (%i. Woche Vorjahr)\n", weekLastYear);
+    } else {
+        printf("\n");
+    }
     printf("Wochentag: ");
     format_day(day_of_the_week(day, month, year));
 

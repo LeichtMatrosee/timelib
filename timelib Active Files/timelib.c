@@ -65,7 +65,7 @@ int get_days_for_month(int month, int year) {
         daysInMonth[1] = 28;
     }
 
-    return daysInMonth[month];
+    return daysInMonth[month - 1];
 }
 
 /**
@@ -183,7 +183,15 @@ int day_of_the_week(int day, int month, int year) {
         dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
         + ceil(year / 4) + ceil(floor(year / 100)));
 
-        dayOfTheWeek = (dayOfTheWeek %7 )-1;
+        dayOfTheWeek = dayOfTheWeek % 7;
+
+        /**
+        if (day_of_the_year(day, month, year) < 183) {
+            dayOfTheWeek = (dayOfTheWeek %7 ) + 1;
+        } else {
+            dayOfTheWeek = (dayOfTheWeek %7 ) + 1;
+        }
+        */
     }
     return dayOfTheWeek;
 }
@@ -197,9 +205,17 @@ int day_of_the_week(int day, int month, int year) {
  * @return int Kalenderwoche
  */
 int number_of_the_week(int day, int month, int year) {
+    int firstWeekdayOfYear = day_of_the_week(1, 1, year);
+    int firstNumber;
+
+    if (firstWeekdayOfYear < 4) {
+        firstNumber = 1;
+    } else {
+        firstNumber = 0;
+    }
     int dayOfTheYear = day_of_the_year(day, month, year);
 
-    int weekNumber = ceil(dayOfTheYear / 7);
+    int weekNumber = ceil(dayOfTheYear / 7) + firstNumber;
 
     return weekNumber;
 }
@@ -225,6 +241,6 @@ void format_day(int dayNumber) {
     } else if (dayNumber == 7) {
         printf("Sonntag");
     } else {
-        printf("ungültige Tageszahl");
+        printf("ungueltige Tageszahl");
     }
 }
