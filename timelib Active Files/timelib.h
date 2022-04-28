@@ -8,4 +8,3 @@ int day_of_the_year(int day, int month, int year);
 int day_of_the_week(int day, int month, int year);
 int number_of_the_week(int day, int month, int year);
 void format_day(int dayNumber);
-int TEST_number_of_the_week(int day, int month, int year);

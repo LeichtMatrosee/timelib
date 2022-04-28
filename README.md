@@ -255,7 +255,7 @@ Timelibrary von Gerrit Koppe
     }
 ```
 ### number_of_the_week()
-**Beschreibung**: Berechnet anhand der Datumsangaben, in der wie vielten Kalenderwoche des angegeben Jahres das Datum ist.
+**Beschreibung**: Berechnet anhand der Datumsangaben, in der wie vielten Kalenderwoche des angegeben Jahres das Datum ist. Anfang und Ende des Jahres sollten mit Vorsicht genossen werden, da am Anfang eine 0 ausgegeben werden kann (letzte Woche des Vorjahres) und am Ende eine 1 (erste Woche des nächsten Jahres).
 
 **Parameter**:
 

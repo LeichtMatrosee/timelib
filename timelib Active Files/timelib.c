@@ -200,7 +200,8 @@ int day_of_the_week(int day, int month, int year) {
 }
 
 /**
- * @brief Berechnet anhand eines Datums die Kalenderwoche
+ * @brief Berechnet anhand eines Datums die Kalenderwoche. Anfang und Ende des Jahres sollten mit Vorsicht genossen werden,
+ *        da am Anfang eine 0 ausgegeben werden kann (letzte Woche des Vorjahres) und am Ende eine 1 (erste Woche des nächsten Jahres).
  * 
  * @param day Tag des Datums
  * @param month Monat des Datums
