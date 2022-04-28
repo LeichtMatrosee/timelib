@@ -11,7 +11,7 @@ Timelibrary von Gerrit Koppe
 | 29.03.2022 | Gerrit Koppe      | 1.1     | Einfügen der ersten Funktionalitäten |
 | 26.04.2022 | Gerrit Koppe      | 1.2     | Einfügen weiterer Funktionalitäten |
 | 26.04.2022 | Gerrit Koppe      | 2.0     | Auslagern der Funktionen in Library |
-| 28.04.2022 | Gerrit Koppe      | 2.1     | Erweiterung der Readme |
+| 28.04.2022 | Gerrit Koppe      | 2.1     | Es läuft!           |
 
 
 # timelib.c
@@ -230,7 +230,7 @@ Timelibrary von Gerrit Koppe
 ```
 
 ### day_of_the_week()
-**Beschreibung**: Erlaubt dem User, ein Datum (Tag, Monat, Jahr) einzugeben und speichert die eingegebenen Werte in die angege
+**Beschreibung**: Berechnet anhand der Datumsangaben, welcher Wochentag ein eingegebener Tag ist.
 
 **Parameter**:
 
@@ -240,7 +240,7 @@ Timelibrary von Gerrit Koppe
 
 **Return**:
 
-- int: 1, falls das Datum existiert, 0, falls nicht.
+- int: Tageszahl der Woche. 0 = Sonntag, 1 = Montag ... 6 = Samstag
   
 **Code**
 ```C
@@ -248,12 +248,69 @@ Timelibrary von Gerrit Koppe
         int dayOfTheWeek = 0;
 
         if (exists_date(day, month, year)) {
-            //Courtesy of https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
-            dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
-            + ceil(year / 4) + ceil(floor(year / 100)));
-
-            dayOfTheWeek = (dayOfTheWeek %7 )-1;
+            //Courtesy of Stackoverflow
+            dayOfTheWeek = (day += month < 3 ? year-- : year - 2, 23*month/9 + day + 4 + year/4- year/100 + year/400)%7;
         }
         return dayOfTheWeek;
+    }
+```
+### number_of_the_week()
+**Beschreibung**: Berechnet anhand der Datumsangaben, in der wie vielten Kalenderwoche des angegeben Jahres das Datum ist.
+
+**Parameter**:
+
+- int *day*: Tag des Datums.
+- int *month*: Monat des Datums.
+- int *year*: Jahr des Datums.
+
+**Return**:
+
+- int: Kalenderwochennummer
+
+**Code**
+```C
+    int number_of_the_week(int day, int month, int year) {
+        int firstWeekdayOfYear = day_of_the_week(1, 1, year);
+        int firstNumber;
+
+        if (firstWeekdayOfYear < 4) {
+            firstNumber = 1;
+        } else {
+            firstNumber = 0;
+        }
+        int dayOfTheYear = day_of_the_year(day, month, year);
+
+        int weekNumber = ceil(dayOfTheYear / 7) + firstNumber;
+
+        if (weekNumber == 53 && (day_of_the_week(day, month, year)> 0 && day_of_the_week(day, month, year) < 4)) {
+            weekNumber = 1;
+        } 
+
+        return weekNumber;
+    }
+```
+
+### format_day()
+**Beschreibung**: Gibt anhand der Nummer eines Wochentags (0-6) den entsprechenden Tag aus. 0 = Sonntag, 1 = Montag ... 6 = Samstag 
+
+**Parameter**:
+
+- int *dayNumber*: Nummer des Wochentages, der ausgegeben werden soll.
+
+**Return**: keiner.
+
+**Code**
+```C
+    void format_day(int dayNumber) {
+        switch (dayNumber) {
+            case 0: printf("Sonntag"); break;
+            case 1: printf("Montag"); break;
+            case 2: printf("Dienstag"); break;
+            case 3: printf("Mittwoch"); break;
+            case 4: printf("Donnerstag"); break;
+            case 5: printf("Freitag"); break;
+            case 6: printf("Samstag"); break;
+            default: printf("ungueltige Tageszahl");
+        }
     }
 ```
