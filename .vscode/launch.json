@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "cwd": "c:/Users/gkoppe/Desktop/King of Ordners/Git Repos/timelib/timelib Active Files",
       "environment": [],
-      "program": "c:/Users/gkoppe/Desktop/King of Ordners/Git Repos/timelib/timelib Active Files/build/Debug/outDebug",
+      "program": "c:/Users/gkoppe/Desktop/King of Ordners/Git Repos/timelib/timelib Active Files/build/Release/outRelease",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",

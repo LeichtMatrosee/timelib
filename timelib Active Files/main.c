@@ -27,6 +27,8 @@ int main() {
     if (number_of_the_week(day, month, year) == 0) {
         int weekLastYear = number_of_the_week(31, 12, year - 1);
         printf(" (%i. Woche Vorjahr)\n", weekLastYear);
+    } else if (number_of_the_week(day, month, year) == 1 && month == 12) {
+        printf("(naechstes Jahr)");
     } else {
         printf("\n");
     }

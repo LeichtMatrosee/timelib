@@ -179,12 +179,14 @@ int day_of_the_week(int day, int month, int year) {
     int dayOfTheWeek = 0;
 
     if (exists_date(day, month, year)) {
+        dayOfTheWeek = (day += month < 3 ? year-- : year - 2, 23*month/9 + day + 4 + year/4- year/100 + year/400)%7;
+        /**
         //Courtesy of https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
         dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
         + ceil(year / 4) + ceil(floor(year / 100)));
 
         dayOfTheWeek = dayOfTheWeek % 7;
-
+        */
         /**
         if (day_of_the_year(day, month, year) < 183) {
             dayOfTheWeek = (dayOfTheWeek %7 ) + 1;
@@ -217,6 +219,10 @@ int number_of_the_week(int day, int month, int year) {
 
     int weekNumber = ceil(dayOfTheYear / 7) + firstNumber;
 
+    if (weekNumber == 53 && (day_of_the_week(day, month, year)> 0 && day_of_the_week(day, month, year) < 4)) {
+        weekNumber = 1;
+    } 
+
     return weekNumber;
 }
 
@@ -226,6 +232,18 @@ int number_of_the_week(int day, int month, int year) {
  * @param dayNumber 
  */
 void format_day(int dayNumber) {
+    
+    switch (dayNumber) {
+        case 0: printf("Sonntag"); break;
+        case 1: printf("Montag"); break;
+        case 2: printf("Dienstag"); break;
+        case 3: printf("Mittwoch"); break;
+        case 4: printf("Donnerstag"); break;
+        case 5: printf("Freitag"); break;
+        case 6: printf("Samstag"); break;
+        default: printf("ungueltige Tageszahl");
+    }
+    /**
     if (dayNumber == 1) {
         printf("Montag");
     } else if (dayNumber == 2) {
@@ -238,9 +256,10 @@ void format_day(int dayNumber) {
         printf("Freitag");
     } else if (dayNumber == 6) {
         printf("Samstag");
-    } else if (dayNumber == 7) {
+    } else if (dayNumber == 0) {
         printf("Sonntag");
     } else {
         printf("ungueltige Tageszahl");
     }
+    */
 }
