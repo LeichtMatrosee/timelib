@@ -179,6 +179,7 @@ int day_of_the_week(int day, int month, int year) {
     int dayOfTheWeek = 0;
 
     if (exists_date(day, month, year)) {
+        //Courtesy of Stackoverflow
         dayOfTheWeek = (day += month < 3 ? year-- : year - 2, 23*month/9 + day + 4 + year/4- year/100 + year/400)%7;
         /**
         //Courtesy of https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
