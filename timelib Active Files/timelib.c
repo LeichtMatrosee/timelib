@@ -181,20 +181,6 @@ int day_of_the_week(int day, int month, int year) {
     if (exists_date(day, month, year)) {
         //Courtesy of Stackoverflow
         dayOfTheWeek = (day += month < 3 ? year-- : year - 2, 23*month/9 + day + 4 + year/4- year/100 + year/400)%7;
-        /**
-        //Courtesy of https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
-        dayOfTheWeek = (day + ceil(2.6*month - 0.2) - 2*floor(year / 100) + year
-        + ceil(year / 4) + ceil(floor(year / 100)));
-
-        dayOfTheWeek = dayOfTheWeek % 7;
-        */
-        /**
-        if (day_of_the_year(day, month, year) < 183) {
-            dayOfTheWeek = (dayOfTheWeek %7 ) + 1;
-        } else {
-            dayOfTheWeek = (dayOfTheWeek %7 ) + 1;
-        }
-        */
     }
     return dayOfTheWeek;
 }
@@ -214,10 +200,12 @@ int number_of_the_week(int day, int month, int year) {
     int weekCounter = 0;
     int has53Weeks = 0;
 
+    //Wenn das Jahr Donnerstags beginnt oder Donnerstags aufhört, hat es 53 Wochen 
     if (firstDayOfYear == 4 || dayArray[day_of_the_week(31,12,year)] == 4) {
         has53Weeks = 1;
     }
     
+    //Falls der erste Tag der Woche zwischen Montag und Donnerstag liegt, liegt er in der ersten Woche
     if (firstDayOfYear < 5) {
         weekCounter = 1;
     }
@@ -225,95 +213,20 @@ int number_of_the_week(int day, int month, int year) {
     //Beginne ab der zweiten Woche zu iterieren
     int startIteratingWeeks = 9 - firstDayOfYear;
 
+    //Wochen literally einfach hochzählen
     for (int i = startIteratingWeeks; i < day_of_the_year(day, month, year); i += 7) {
         weekCounter++;
     }
 
+    //Falls der weekcounter 52 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
+    //muss es die erste Woche des nächsten Jahres sein.
     if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
         weekCounter = -1;
     }
+    
     return weekCounter;
 }
-/**
-int number_of_the_week(int day, int month, int year) {
-    int dayArray[7] = {7,1,2,3,4,5,6};
-    int dayOfWeek = dayArray[day_of_the_week(day, month, year)];
-    int weekCounter = 0;
 
-    if (dayOfWeek < 5) {
-        for (int i = ((7 - dayOfWeek) + 1); i < day_of_the_year(day, month, year); i += 7) {
-            weekCounter++;
-        }
-    } else {
-        weekCounter = -1;
-        for (int i = ((7 - dayOfWeek) + 1); i < day_of_the_year(day, month, year); i += 7) {
-            weekCounter++;
-        }
-
-    }
-
-    if (is_leapyear(year) && (dayOfWeek == 4 || dayOfWeek == 3)) {
-        weekCounter++;
-    }
-    if (weekCounter == 53 && dayOfWeek < 5) {
-        if (!is_leapyear(year)) {
-            weekCounter = 1;
-        }
-    } else if (weekCounter == 1 && dayOfWeek > 4) {
-        weekCounter = number_of_the_week(31,12,year-1);
-    }
-    return weekCounter;
-}
-*/
-/**
-int number_of_the_week(int day, int month, int year) {
-    int dayArray[7] = {7,1,2,3,4,5,6};
-    int dayOfWeek = dayArray[day_of_the_week(day, month, year)];
-    int weekCounter = 0;
-
-
-    if (dayOfWeek > 1 && dayOfWeek < 6) {
-        weekCounter = 1;
-        dayOfWeek = 7 - dayOfWeek;
-        for (int i = dayOfWeek; i < day_of_the_year(day, month, year); i += 7) {
-            weekCounter++;
-        }
-    } else {
-        weekCounter = 0;
-        dayOfWeek = 7 - dayOfWeek;
-
-        for (int i = dayOfWeek; i < day_of_the_year(day, month, year); i += 7) {
-            weekCounter++;
-        }
-    }
-
-    if ((weekCounter == 53 || weekCounter == 1) && dayOfWeek == 0) {
-        return 666;
-    }
-    return weekCounter;
-}
-*/
-/**
-int TEST_number_of_the_week(int day, int month, int year) {
-    int firstWeekdayOfYear = day_of_the_week(1, 1, year);
-    int firstNumber;
-
-    if (firstWeekdayOfYear < 4) {
-        firstNumber = 1;
-    } else {
-        firstNumber = 0;
-    }
-    int dayOfTheYear = day_of_the_year(day, month, year);
-
-    int weekNumber = ceil(dayOfTheYear / 7) + firstNumber;
-
-    if (weekNumber == 53 && (day_of_the_week(day, month, year)> 0 && day_of_the_week(day, month, year) < 4)) {
-        weekNumber = 1;
-    } 
-
-    return weekNumber;
-}
-*/
 /**
  * @brief gibt anhand der Nummer des Tages der Woche die korrekte Bezeichnung des Tages aus.
  * 
@@ -331,23 +244,4 @@ void format_day(int dayNumber) {
         case 6: printf("Samstag"); break;
         default: printf("ungueltige Tageszahl");
     }
-    /**
-    if (dayNumber == 1) {
-        printf("Montag");
-    } else if (dayNumber == 2) {
-        printf("Dienstag");
-    } else if (dayNumber == 3) {
-        printf("Mittwoch");
-    } else if (dayNumber == 4) {
-        printf("Donnerstag");
-    } else if (dayNumber == 5) {
-        printf("Freitag");
-    } else if (dayNumber == 6) {
-        printf("Samstag");
-    } else if (dayNumber == 0) {
-        printf("Sonntag");
-    } else {
-        printf("ungueltige Tageszahl");
-    }
-    */
 }
