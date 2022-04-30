@@ -257,7 +257,7 @@ Timelibrary von Gerrit Koppe
     }
 ```
 ### number_of_the_week()
-**Beschreibung**: Berechnet anhand der Datumsangaben, in der wie vielten Kalenderwoche des angegeben Jahres das Datum ist. Anfang und Ende des Jahres sollten mit Vorsicht genossen werden, da am Anfang eine 0 ausgegeben werden kann (letzte Woche des Vorjahres) und am Ende eine 1 (erste Woche des nächsten Jahres).
+**Beschreibung**: Berechnet anhand der Datumsangaben, in der wie vielten Kalenderwoche des angegeben Jahres das Datum ist. Anfang und Ende des Jahres sollten mit Vorsicht genossen werden, da am Anfang eine 0 ausgegeben werden kann (letzte Woche des Vorjahres) und am Ende eine -1 (erste Woche des nächsten Jahres).
 
 **Parameter**:
 
@@ -267,28 +267,41 @@ Timelibrary von Gerrit Koppe
 
 **Return**:
 
-- int: Kalenderwochennummer
+- int: Kalenderwochennummer; -1, falls es die erste Woche des nächsten Jahres ist und 0, falls es die letzte Woche des Vorjahres ist.
 
 **Code**
 ```C
     int number_of_the_week(int day, int month, int year) {
-        int firstWeekdayOfYear = day_of_the_week(1, 1, year);
-        int firstNumber;
+        int dayArray[7] = {7,1,2,3,4,5,6};
+        int firstDayOfYear = dayArray[day_of_the_week(1,1,year)];
+        int weekCounter = 0;
+        int has53Weeks = 0;
 
-        if (firstWeekdayOfYear < 4) {
-            firstNumber = 1;
-        } else {
-            firstNumber = 0;
+        //Wenn das Jahr Donnerstags beginnt oder Donnerstags aufhört, hat es 53 Wochen 
+        if (firstDayOfYear == 4 || dayArray[day_of_the_week(31,12,year)] == 4) {
+            has53Weeks = 1;
         }
-        int dayOfTheYear = day_of_the_year(day, month, year);
+        
+        //Falls der erste Tag der Woche zwischen Montag und Donnerstag liegt, liegt er in der ersten Woche
+        if (firstDayOfYear < 5) {
+            weekCounter = 1;
+        }
 
-        int weekNumber = ceil(dayOfTheYear / 7) + firstNumber;
+        //Beginne ab der zweiten Woche zu iterieren
+        int startIteratingWeeks = 9 - firstDayOfYear;
 
-        if (weekNumber == 53 && (day_of_the_week(day, month, year)> 0 && day_of_the_week(day, month, year) < 4)) {
-            weekNumber = 1;
-        } 
+        //Wochen literally einfach hochzählen
+        for (int i = startIteratingWeeks; i < day_of_the_year(day, month, year); i += 7) {
+            weekCounter++;
+        }
 
-        return weekNumber;
+        //Falls der weekcounter 52 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
+        //muss es die erste Woche des nächsten Jahres sein.
+        if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
+            weekCounter = -1;
+        }
+        
+        return weekCounter;
     }
 ```
 
