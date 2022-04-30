@@ -192,7 +192,7 @@ int day_of_the_week(int day, int month, int year) {
  * @param day Tag des Datums
  * @param month Monat des Datums
  * @param year Jahr des Datums
- * @return int Kalenderwoche
+ * @return int: Kalenderwochennummer; -1, falls es die erste Woche des nächsten Jahres ist und 0, falls es die letzte Woche des Vorjahres ist.
  */
 int number_of_the_week(int day, int month, int year) {
     int dayArray[7] = {7,1,2,3,4,5,6};
@@ -223,7 +223,7 @@ int number_of_the_week(int day, int month, int year) {
     if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
         weekCounter = -1;
     }
-    
+
     return weekCounter;
 }
 
