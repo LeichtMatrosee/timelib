@@ -220,7 +220,7 @@ int number_of_the_week(int day, int month, int year) {
 
     //Falls der weekcounter 52 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
     //muss es die erste Woche des nächsten Jahres sein.
-    if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
+    if (weekCounter == 53 && day_of_the_week(day, month, year) < 4 && !has53Weeks) {
         weekCounter = -1;
     }
 

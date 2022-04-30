@@ -13,7 +13,7 @@ Timelibrary von Gerrit Koppe
 | 26.04.2022 | Gerrit Koppe      | 2.0     | Auslagern der Funktionen in Library |
 | 28.04.2022 | Gerrit Koppe      | 2.1     | Es läuft!           |
 | 28.04.2022 | Gerrit Koppe      | 2.1.1     | Es läuft tatsächlich nicht... |
-| 30.04.2022 | Gerrit Koppe      | 2.2     | ES LÄUFT!          |
+| 30.04.2022 | Gerrit Koppe      | 2.2     | ES LÄUFT!           |
 
 
 # timelib.c
@@ -297,10 +297,10 @@ Timelibrary von Gerrit Koppe
 
         //Falls der weekcounter 52 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
         //muss es die erste Woche des nächsten Jahres sein.
-        if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
+        if (weekCounter == 53 && day_of_the_week(day, month, year) < 4 && !has53Weeks) {
             weekCounter = -1;
         }
-        
+
         return weekCounter;
     }
 ```
