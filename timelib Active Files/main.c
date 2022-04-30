@@ -24,11 +24,14 @@ int main() {
     //Ausgabe der Berechnungen
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
     printf("Kalenderwoche: %i", number_of_the_week(day, month, year));
-    if (number_of_the_week(day, month, year) == 0) {
-        int weekLastYear = number_of_the_week(31, 12, year - 1);
+    
+    if (number_of_the_week(day, month, year) == 666) {
+            printf(" Fuck this shit, not gonna deal with this bs, look it up on Google.\n");
+    } else if (number_of_the_week(day, month, year) == 0) {
+        int weekLastYear = number_of_the_week(31, 12, (year - 1));
         printf(" (%i. Woche Vorjahr)\n", weekLastYear);
     } else if (number_of_the_week(day, month, year) == 1 && month == 12) {
-        printf("(naechstes Jahr)");
+        printf(" (naechstes Jahr)\n");
     } else {
         printf("\n");
     }

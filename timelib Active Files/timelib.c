@@ -209,6 +209,92 @@ int day_of_the_week(int day, int month, int year) {
  * @return int Kalenderwoche
  */
 int number_of_the_week(int day, int month, int year) {
+    int dayArray[7] = {7,1,2,3,4,5,6};
+    int firstDayOfYear = dayArray[day_of_the_week(1,1,year)];
+    int weekCounter = 0;
+    int has53Weeks = 0;
+
+    if (firstDayOfYear == 4 || dayArray[day_of_the_week(31,12,year)] == 4) {
+        has53Weeks = 1;
+    }
+    
+    if (firstDayOfYear < 5) {
+        weekCounter = 1;
+    }
+
+    //Beginne ab der zweiten Woche zu iterieren
+    int startIteratingWeeks = 9 - firstDayOfYear;
+
+    for (int i = startIteratingWeeks; i < day_of_the_year(day, month, year); i += 7) {
+        weekCounter++;
+    }
+
+    if (weekCounter == 53 && day_of_the_week(day, month, year) > 4 && !has53Weeks) {
+        weekCounter = -1;
+    }
+    return weekCounter;
+}
+/**
+int number_of_the_week(int day, int month, int year) {
+    int dayArray[7] = {7,1,2,3,4,5,6};
+    int dayOfWeek = dayArray[day_of_the_week(day, month, year)];
+    int weekCounter = 0;
+
+    if (dayOfWeek < 5) {
+        for (int i = ((7 - dayOfWeek) + 1); i < day_of_the_year(day, month, year); i += 7) {
+            weekCounter++;
+        }
+    } else {
+        weekCounter = -1;
+        for (int i = ((7 - dayOfWeek) + 1); i < day_of_the_year(day, month, year); i += 7) {
+            weekCounter++;
+        }
+
+    }
+
+    if (is_leapyear(year) && (dayOfWeek == 4 || dayOfWeek == 3)) {
+        weekCounter++;
+    }
+    if (weekCounter == 53 && dayOfWeek < 5) {
+        if (!is_leapyear(year)) {
+            weekCounter = 1;
+        }
+    } else if (weekCounter == 1 && dayOfWeek > 4) {
+        weekCounter = number_of_the_week(31,12,year-1);
+    }
+    return weekCounter;
+}
+*/
+/**
+int number_of_the_week(int day, int month, int year) {
+    int dayArray[7] = {7,1,2,3,4,5,6};
+    int dayOfWeek = dayArray[day_of_the_week(day, month, year)];
+    int weekCounter = 0;
+
+
+    if (dayOfWeek > 1 && dayOfWeek < 6) {
+        weekCounter = 1;
+        dayOfWeek = 7 - dayOfWeek;
+        for (int i = dayOfWeek; i < day_of_the_year(day, month, year); i += 7) {
+            weekCounter++;
+        }
+    } else {
+        weekCounter = 0;
+        dayOfWeek = 7 - dayOfWeek;
+
+        for (int i = dayOfWeek; i < day_of_the_year(day, month, year); i += 7) {
+            weekCounter++;
+        }
+    }
+
+    if ((weekCounter == 53 || weekCounter == 1) && dayOfWeek == 0) {
+        return 666;
+    }
+    return weekCounter;
+}
+*/
+/**
+int TEST_number_of_the_week(int day, int month, int year) {
     int firstWeekdayOfYear = day_of_the_week(1, 1, year);
     int firstNumber;
 
@@ -227,7 +313,7 @@ int number_of_the_week(int day, int month, int year) {
 
     return weekNumber;
 }
-
+*/
 /**
  * @brief gibt anhand der Nummer des Tages der Woche die korrekte Bezeichnung des Tages aus.
  * 
