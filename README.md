@@ -17,15 +17,19 @@ Timelibrary von Gerrit Koppe
 
 
 # timelib.c
-```timelib.c``` ist eine Library mit Funktionen für Datumsberechnungen. Die Funktionen werden im Folgenden beschrieben
+```timelib.c``` ist eine Library mit Funktionen für Datumsberechnungen. Die Funktionen werden im Folgenden beschrieben.
 ## Dokumentation der Funktionen
 
 ### clearBuffer()
-**Beschreibung**: Leert den Eingabepuffer.
+**Beschreibung**: Leert den Eingabepuffer. Kann nach jedem ```scanf()``` genutzt werden, um Eingaben, die nicht dem Datentypen entsprechen, aus dem Puffer zu löschen, da diese ansonsten das Programm kaputt machen könnten.
 
-**Parameter**: keine.
+**Parameter**: 
 
-**Return**: keiner.
+- keine.
+
+**Return**: 
+
+- keiner.
 
 **Code**
 ```C
@@ -38,7 +42,7 @@ Timelibrary von Gerrit Koppe
 ```
 
 ### is_leapyear()
-**Beschreibung**: Überprüft, ob ein Jahr ein Schaltjahr ist.
+**Beschreibung**: Überprüft, ob ein Jahr ein beliebiges Jahr ab 1528 ein Schaltjahr ist.
 
 **Parameter**:
 
@@ -77,7 +81,7 @@ Timelibrary von Gerrit Koppe
 ```
 
 ### get_days_for_month()
-**Beschreibung**: Gibt die Zahl der Tage zurück, die der gegebene Monat in dem gegebenen Jahr hat. Im Fall vom Februar wird überprüft, ob das Jahr ein Schaltjahr ist.
+**Beschreibung**: Gibt die Zahl der Tage zurück, die der gegebene Monat in dem gegebenen Jahr hat. Im Fall vom Februar wird überprüft, ob das Jahr ein Schaltjahr ist und im Anschluss entweder eine 28 oder 29 returned.
 
 **Parameter**:
 
@@ -163,7 +167,9 @@ Timelibrary von Gerrit Koppe
 - int *month*: Pointer auf den Monat des Datums.
 - int *year*: Pointer auf das Jahr des Datums.
 
-**Return**: keiner
+**Return**: 
+
+- keiner
 
 **Code**
 ```C
@@ -199,7 +205,7 @@ Timelibrary von Gerrit Koppe
 ```
 
 ### day_of_the_year()
-**Beschreibung**: Berechnet, der wievielte Tag eines Jahres ein angegebenes Datum ist.
+**Beschreibung**: Berechnet, der wievielte Tag eines Jahres ein angegebenes Datum ist. Hierfür wird zunächst die ```exists_date()``` Funktion aufgerufen, wodurch jedes Datum, das nicht existiert oder vor 1528 oder nach 2400 liegt, nicht überprüft wird.
 
 **Parameter**:
 
@@ -207,7 +213,9 @@ Timelibrary von Gerrit Koppe
 - int *month*: Monat des Datums.
 - int *year*: Jahr des Datums.
 
-**Return**: Int: Tagesnummer des eingegebenen Datums.
+**Return**: 
+
+- Int: Tagesnummer des eingegebenen Datums.
 
 **Code**
 ```C
@@ -306,13 +314,15 @@ Timelibrary von Gerrit Koppe
 ```
 
 ### format_day()
-**Beschreibung**: Gibt anhand der Nummer eines Wochentags (0-6) den entsprechenden Tag aus. 0 = Sonntag, 1 = Montag ... 6 = Samstag 
+**Beschreibung**: Gibt anhand der Nummer eines Wochentags (0-6) den entsprechenden Tag aus. 0 = Sonntag, 1 = Montag ... 6 = Samstag. Der berechnete Tag wird gedruckt und nicht zurückgegeben.
 
 **Parameter**:
 
 - int *dayNumber*: Nummer des Wochentages, der ausgegeben werden soll.
 
-**Return**: keiner.
+**Return**: 
+
+- keiner.
 
 **Code**
 ```C
