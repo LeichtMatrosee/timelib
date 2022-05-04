@@ -14,7 +14,8 @@ void clearBuffer() {
 /**
  * @brief Überprüft, ob ein Jahr ein Schaltjahr ist
  * 
- * @param year Eingegebenes Jahr
+ * @param year Zu überprüfendes Jahr.
+ * 
  * @return int 1, falls das Jahr ein Schaltjahr ist; 0, falls das Jahr kein Schaltjahr ist.
  */
 int is_leapyear(int year) {
@@ -46,6 +47,7 @@ int is_leapyear(int year) {
  * 
  * @param month Eingegebener Monat
  * @param year Eingegebenes Jahr
+ * 
  * @return int Anzahl der Tage im eingegebenen Monat und -1, falls ein ungültiger Monat oder ein ungültiges
  * Jahr übergeben wurde.
  */
@@ -74,6 +76,7 @@ int get_days_for_month(int month, int year) {
  * @param day Eingegebener Tag
  * @param month Eingegebener Monat
  * @param year Eingegebenes Jahr
+ * 
  * @return int 1, falls es existiert; 0, falls es nicht existiert
  */
 int exists_date(int day, int month, int year) {
@@ -146,6 +149,7 @@ void input_date(int *day, int *month, int *year) {
  * @param day Eingegebener Tag
  * @param month Eingegebener Monat
  * @param year Eingegebenes Jahr
+ * 
  * @return int Ergebnis der Berechnung oder -1, falls das Datum ungültig ist.
  */
 int day_of_the_year(int day, int month, int year) {
@@ -173,6 +177,7 @@ int day_of_the_year(int day, int month, int year) {
  * @param day Tag des Datums
  * @param month Monat des Datums
  * @param year Jahr des Datums
+ * 
  * @return int Wochentag (1=Montag, 2=Dienstag...)
  */
 int day_of_the_week(int day, int month, int year) {
@@ -192,6 +197,7 @@ int day_of_the_week(int day, int month, int year) {
  * @param day Tag des Datums
  * @param month Monat des Datums
  * @param year Jahr des Datums
+ * 
  * @return int: Kalenderwochennummer; -1, falls es die erste Woche des nächsten Jahres ist und 0, falls es die letzte Woche des Vorjahres ist.
  */
 int number_of_the_week(int day, int month, int year) {
@@ -218,7 +224,7 @@ int number_of_the_week(int day, int month, int year) {
         weekCounter++;
     }
 
-    //Falls der weekcounter 52 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
+    //Falls der weekcounter 53 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
     //muss es die erste Woche des nächsten Jahres sein.
     if (weekCounter == 53 && day_of_the_week(day, month, year) < 4 && !has53Weeks) {
         weekCounter = -1;
@@ -230,7 +236,7 @@ int number_of_the_week(int day, int month, int year) {
 /**
  * @brief gibt anhand der Nummer des Tages der Woche die korrekte Bezeichnung des Tages aus.
  * 
- * @param dayNumber 
+ * @param dayNumber Int: Nummer des Tages, der Formatiert werden soll. 0=Sonntag, 1=Montag, ... 6=Samstag.
  */
 void format_day(int dayNumber) {
     
