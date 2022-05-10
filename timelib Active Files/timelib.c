@@ -113,8 +113,8 @@ int exists_date(struct Date date) {
  * @param month {POINTER} Zeigt auf die Monatsvariable in der Main
  * @param year {POINTER} Zeigt auf die Jahresvariable in der Main
  */
-struct Date input_date(struct Date date) {
-    
+struct Date input_date() {
+    struct Date date;
     do {
         //Tag eingeben
         printf("Bitte geben sie den Tag ein: ");

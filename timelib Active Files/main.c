@@ -14,19 +14,30 @@
 #include "timelib.h"
 
 int main() {
-    struct Date date;
-
     //Rufe Funktionen auf
-    date = input_date(date);
-    struct Date lastDayLastYear;
+    struct Date date = input_date();
+    struct Date lastDayLastYear = {
+        31, //day
+        12, //month
+        date.year - 1 //year
+
+    };
+    /**
     lastDayLastYear.day = 31;
     lastDayLastYear.month = 12;
     lastDayLastYear.year = date.year - 1;
-    struct Date firstDayNextYear;
+    */
+    struct Date firstDayNextYear = {
+        1,
+        1,
+        date.year + 1
+    };
+    /**
     firstDayNextYear.day = 1;
     firstDayNextYear.month = 1;
     firstDayNextYear.year = date.year + 1;
-    
+    */
+
     //Ausgabe der Berechnungea
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", date.day, date.month, date.year, day_of_the_year(date));
     printf("Kalenderwoche: ");
