@@ -198,7 +198,7 @@ int day_of_the_week(struct Date date) {
     int dayOfTheWeek = 0;
 
     if (exists_date(date)) {
-        //Courtesy of Stackoverflow
+        //Courtesy of Stackoverflow https://stackoverflow.com/a/21235587
         dayOfTheWeek = (date.day += date.month < 3 ? date.year-- : date.year - 2, 23*date.month/9 + date.day + 4 + date.year/4- date.year/100 + date.year/400)%7;
     }
     return dayOfTheWeek;
