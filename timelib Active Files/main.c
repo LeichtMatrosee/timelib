@@ -21,7 +21,7 @@ int main() {
     //Rufe Funktionen auf
     input_date(&day, &month, &year);
     
-    //Ausgabe der Berechnungen
+    //Ausgabe der Berechnungea
     printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
     printf("Kalenderwoche: ");
     
