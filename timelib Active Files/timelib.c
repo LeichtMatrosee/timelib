@@ -163,7 +163,9 @@ int day_of_the_year(struct Date date) {
 
     //Addiere die Tage aller Monate vor dem Monat, in dem der Tag ist
     for (int i = 1; i < date.month; i++) {
-        dayOfYear += get_days_for_month(date);
+        struct Date tempDate = date;
+        tempDate.month = i;
+        dayOfYear += get_days_for_month(tempDate);
     }
 
     //Addiere den Tag
