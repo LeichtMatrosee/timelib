@@ -14,7 +14,12 @@ void clearBuffer() {
 /**
  * @brief Überprüft, ob ein Jahr ein Schaltjahr ist
  * 
- * @param year Zu überprüfendes Jahr.
+ * @param date {struct} Struct Objekt: 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * } 
  * 
  * @return int 1, falls das Jahr ein Schaltjahr ist; 0, falls das Jahr kein Schaltjahr ist.
  */
@@ -45,10 +50,7 @@ int is_leapyear(struct Date date) {
 /**
  * @brief Get the days for month object
  * 
- * @param month Eingegebener Monat
- * @param year Eingegebenes Jahr
- * 
- * @return int Anzahl der Tage im eingegebenen Monat und -1, falls ein ungültiger Monat oder ein ungültiges
+ * @return int int Anzahl der Tage im eingegebenen Monat und -1, falls ein ungültiger Monat oder ein ungültiges
  * Jahr übergeben wurde.
  */
 int get_days_for_month(struct Date date) {
@@ -71,13 +73,15 @@ int get_days_for_month(struct Date date) {
 }
 
 /**
- * @brief Überprüft, ob das angegebene Datum existiert.
+ * @brief Überprüft, ob ein angegebenes Datum existiert (zwischen 1582 und 2400; Monat zwischen 1 und 12)
  * 
- * @param day Eingegebener Tag
- * @param month Eingegebener Monat
- * @param year Eingegebenes Jahr
- * 
- * @return int 1, falls es existiert; 0, falls es nicht existiert
+ * @param date {struct} Struct Objekt: 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * }  
+ * @return int 1, falls das Datum existiert; 0, falls das Datum nicht existiert
  */
 int exists_date(struct Date date) {
     int existCheck = 1;
@@ -105,13 +109,16 @@ int exists_date(struct Date date) {
     }
     return existCheck;
 }
+
 /**
- * @brief Die Funktion liest 3 Ganzzahlwerte (Integer) ein, für Tag, Monat und Jahr. Wenn das angegebene Datum 
- * ungültig ist, wird erneut eingelesen, solange bis ein gültiges Datum eingegeben wurde.
+ * @brief Liest drei Ganzzahlwerte ein und returned diese als Date structure
  * 
- * @param day {POINTER} Zeigt auf die Tagesvariable in der Main
- * @param month {POINTER} Zeigt auf die Monatsvariable in der Main
- * @param year {POINTER} Zeigt auf die Jahresvariable in der Main
+ * @return struct Date 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * } 
  */
 struct Date input_date() {
     struct Date date;
@@ -145,13 +152,15 @@ struct Date input_date() {
 }
 
 /**
- * @brief Berechnet, der wie vielte Tag des Jahres der angegebene Tag ist.
+ * @brief Berechnet der wie vielte Tag des Jares ein eingegebenes Datum ist.
  * 
- * @param day Eingegebener Tag
- * @param month Eingegebener Monat
- * @param year Eingegebenes Jahr
- * 
- * @return int Ergebnis der Berechnung oder -1, falls das Datum ungültig ist.
+ * @param date {struct} Struct Objekt: 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * } 
+ * @return int Tag des Jahres
  */
 int day_of_the_year(struct Date date) {
     //Überprüfung, ob das Datum existiert
@@ -177,10 +186,12 @@ int day_of_the_year(struct Date date) {
 /**
  * @brief Gibt den Wochentag eines Datums anhand von Tag, Monat und Jahr aus
  * 
- * @param day Tag des Datums
- * @param month Monat des Datums
- * @param year Jahr des Datums
- * 
+ * @param date {struct} Struct Objekt: 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * } 
  * @return int Wochentag (1=Montag, 2=Dienstag...)
  */
 int day_of_the_week(struct Date date) {
@@ -197,21 +208,26 @@ int day_of_the_week(struct Date date) {
  * @brief Berechnet anhand eines Datums die Kalenderwoche. Anfang und Ende des Jahres sollten mit Vorsicht genossen werden,
  *        da am Anfang eine 0 ausgegeben werden kann (letzte Woche des Vorjahres) und am Ende eine 1 (erste Woche des nächsten Jahres).
  * 
- * @param day Tag des Datums
- * @param month Monat des Datums
- * @param year Jahr des Datums
- * 
+ * @param date {struct} Struct Objekt: 
+ * {
+ *      day (int),
+ *      month (int),
+ *      year (int)
+ * }  
  * @return int: Kalenderwochennummer; -1, falls es die erste Woche des nächsten Jahres ist und 0, falls es die letzte Woche des Vorjahres ist.
  */
 int number_of_the_week(struct Date date) {
     int dayArray[7] = {7,1,2,3,4,5,6};
+
+    int weekCounter = 0;
+    int has53Weeks = 0;
+
     struct Date firstDay;
     firstDay.day = 1;
     firstDay.month = 1;
     firstDay.year = date.year;
+    
     int firstDayOfYear = dayArray[day_of_the_week(firstDay)];
-    int weekCounter = 0;
-    int has53Weeks = 0;
 
     struct Date lastDay;
     lastDay.day = 31;
