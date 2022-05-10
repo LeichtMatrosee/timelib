@@ -18,17 +18,17 @@ void clearBuffer() {
  * 
  * @return int 1, falls das Jahr ein Schaltjahr ist; 0, falls das Jahr kein Schaltjahr ist.
  */
-int is_leapyear(int year) {
+int is_leapyear(struct Date date) {
     //Überprüfung, ob das Jahr valide ist (in diesem Programm überflüssig)
-    if (year < 1528) {
+    if (date.year < 1528) {
         return -1;
     }
 
     int leapYearTrue = 0;
 
-    if (year % 4 == 0) { //Jahr durch 4 teilbar
-        if (year % 100 == 0) { //Jahr durch 4 und durch 100 teilbar
-            if (year % 400 == 0) { //Jahr durch 4, 100 und 400
+    if (date.year % 4 == 0) { //Jahr durch 4 teilbar
+        if (date.year % 100 == 0) { //Jahr durch 4 und durch 100 teilbar
+            if (date.year % 400 == 0) { //Jahr durch 4, 100 und 400
                 leapYearTrue = 1;
             } else {
                 leapYearTrue = 0; //Jahr durch 4, 100 und nicht 400 teilbar
@@ -51,23 +51,23 @@ int is_leapyear(int year) {
  * @return int Anzahl der Tage im eingegebenen Monat und -1, falls ein ungültiger Monat oder ein ungültiges
  * Jahr übergeben wurde.
  */
-int get_days_for_month(int month, int year) {
+int get_days_for_month(struct Date date) {
     //Monatsarray initialisieren
     int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     
     //Überprüfung, ob Jahr gültig ist (wann ein Jahr gültig ist aus dem Kontext anderer Funktionen erarbeitet)
-    if (year < 1528) {
+    if (date.year < 1528) {
         return -1;
     }
 
     //Falls das Jahr ein Schaltjahr ist, den Monatsarray so mutieren, dass der Februar 29 Tage hat, ansonsten 28
-    if (is_leapyear(year)) {
+    if (is_leapyear(date)) {
         daysInMonth[1] = 29;
     } else {
         daysInMonth[1] = 28;
     }
 
-    return daysInMonth[month - 1];
+    return daysInMonth[date.month - 1];
 }
 
 /**
@@ -79,24 +79,24 @@ int get_days_for_month(int month, int year) {
  * 
  * @return int 1, falls es existiert; 0, falls es nicht existiert
  */
-int exists_date(int day, int month, int year) {
+int exists_date(struct Date date) {
     int existCheck = 1;
 
     //Jahr im angegebenen Zeitrahmen?
-    if (year < 1582 || year > 2400) {
+    if (date.year < 1582 || date.year > 2400) {
         printf("Das Jahr liegt nicht im zulassigen Bereich (1582 - 2400), bitte geben sie ein anderes Jahr ein.\n");
         existCheck = 0;
     }
 
     //Existiert der Monat?
-    if (month < 1 || month > 12) {
+    if (date.month < 1 || date.month > 12) {
         printf("Der angegebene Monat existiert nicht, bitte gegen sie einen Monat zwischen 1 und 12 ein.\n");
         existCheck = 0;
     }
 
     //Tag im Monat existent?
-    if (day < 1 || day > get_days_for_month(month, year)) {
-        printf("Der angegebene Tag existiert nicht, bitte geben sie einen Tag zwischen 1 und %i ein.\n", get_days_for_month(month, year));
+    if (date.day < 1 || date.day > get_days_for_month(date)) {
+        printf("Der angegebene Tag existiert nicht, bitte geben sie einen Tag zwischen 1 und %i ein.\n", get_days_for_month(date));
         existCheck = 0;
     }
 
@@ -113,12 +113,12 @@ int exists_date(int day, int month, int year) {
  * @param month {POINTER} Zeigt auf die Monatsvariable in der Main
  * @param year {POINTER} Zeigt auf die Jahresvariable in der Main
  */
-void input_date(int *day, int *month, int *year) {
+struct Date input_date(struct Date date) {
     
     do {
         //Tag eingeben
         printf("Bitte geben sie den Tag ein: ");
-        while (!scanf("%i", day)) {
+        while (!scanf("%i", &date.day)) {
             printf("Ein Tag ist eine Zahl...\n");
             clearBuffer();
             continue;
@@ -126,7 +126,7 @@ void input_date(int *day, int *month, int *year) {
 
         //Monat eingeben
         printf("Bitte geben sie den Monat ein: ");
-        while (!scanf("%i", month)) {
+        while (!scanf("%i", &date.month)) {
             printf("Ein Monat ist eine Zahl...\n");
             clearBuffer();
             continue;
@@ -134,13 +134,14 @@ void input_date(int *day, int *month, int *year) {
 
         //Jahr eingeben
         printf("Bitte geben sie das Jahr ein: ");
-        while (!scanf("%i", year)) {
+        while (!scanf("%i", &date.year)) {
             printf("Ein Jahr ist eine Zahl...\n");
             clearBuffer();
             continue;
         }
-    } while (!exists_date(*day, *month, *year) || (exists_date(*day, *month, *year) == -1)); //solange, bis das Datum existiert
+    } while (!exists_date(date) || (exists_date(date) == -1)); //solange, bis das Datum existiert
 
+    return date;
 }
 
 /**
@@ -152,21 +153,21 @@ void input_date(int *day, int *month, int *year) {
  * 
  * @return int Ergebnis der Berechnung oder -1, falls das Datum ungültig ist.
  */
-int day_of_the_year(int day, int month, int year) {
+int day_of_the_year(struct Date date) {
     //Überprüfung, ob das Datum existiert
-    if (!exists_date(day, month, year)) {
+    if (!exists_date(date)) {
         return -1;
     }
     
     int dayOfYear = 0;
 
     //Addiere die Tage aller Monate vor dem Monat, in dem der Tag ist
-    for (int i = 1; i < month; i++) {
-        dayOfYear += get_days_for_month(i, year);
+    for (int i = 1; i < date.month; i++) {
+        dayOfYear += get_days_for_month(date);
     }
 
     //Addiere den Tag
-    dayOfYear += day;
+    dayOfYear += date.day;
 
     return dayOfYear;
 }
@@ -180,12 +181,12 @@ int day_of_the_year(int day, int month, int year) {
  * 
  * @return int Wochentag (1=Montag, 2=Dienstag...)
  */
-int day_of_the_week(int day, int month, int year) {
+int day_of_the_week(struct Date date) {
     int dayOfTheWeek = 0;
 
-    if (exists_date(day, month, year)) {
+    if (exists_date(date)) {
         //Courtesy of Stackoverflow
-        dayOfTheWeek = (day += month < 3 ? year-- : year - 2, 23*month/9 + day + 4 + year/4- year/100 + year/400)%7;
+        dayOfTheWeek = (date.day += date.month < 3 ? date.year-- : date.year - 2, 23*date.month/9 + date.day + 4 + date.year/4- date.year/100 + date.year/400)%7;
     }
     return dayOfTheWeek;
 }
@@ -200,14 +201,22 @@ int day_of_the_week(int day, int month, int year) {
  * 
  * @return int: Kalenderwochennummer; -1, falls es die erste Woche des nächsten Jahres ist und 0, falls es die letzte Woche des Vorjahres ist.
  */
-int number_of_the_week(int day, int month, int year) {
+int number_of_the_week(struct Date date) {
     int dayArray[7] = {7,1,2,3,4,5,6};
-    int firstDayOfYear = dayArray[day_of_the_week(1,1,year)];
+    struct Date firstDay;
+    firstDay.day = 1;
+    firstDay.month = 1;
+    firstDay.year = date.year;
+    int firstDayOfYear = dayArray[day_of_the_week(firstDay)];
     int weekCounter = 0;
     int has53Weeks = 0;
 
+    struct Date lastDay;
+    lastDay.day = 31;
+    lastDay.month = 12;
+    lastDay.year = date.year;
     //Wenn das Jahr Donnerstags beginnt oder Donnerstags aufhört, hat es 53 Wochen 
-    if (firstDayOfYear == 4 || dayArray[day_of_the_week(31,12,year)] == 4) {
+    if (firstDayOfYear == 4 || dayArray[day_of_the_week(lastDay)] == 4) {
         has53Weeks = 1;
     }
     
@@ -220,13 +229,13 @@ int number_of_the_week(int day, int month, int year) {
     int startIteratingWeeks = 9 - firstDayOfYear;
 
     //Wochen literally einfach hochzählen
-    for (int i = startIteratingWeeks; i < day_of_the_year(day, month, year); i += 7) {
+    for (int i = startIteratingWeeks; i < day_of_the_year(date); i += 7) {
         weekCounter++;
     }
 
     //Falls der weekcounter 53 erreicht, wir aber keine 53 Wochen haben und der Tag zwischen Montag und Donnerstag liegt,
     //muss es die erste Woche des nächsten Jahres sein.
-    if (weekCounter == 53 && day_of_the_week(day, month, year) < 4 && !has53Weeks) {
+    if (weekCounter == 53 && day_of_the_week(date) < 4 && !has53Weeks) {
         weekCounter = -1;
     }
 

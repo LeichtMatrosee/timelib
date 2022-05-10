@@ -14,27 +14,33 @@
 #include "timelib.h"
 
 int main() {
-    int day = 0;
-    int month = 0;
-    int year = 0;
+    struct Date date;
 
     //Rufe Funktionen auf
-    input_date(&day, &month, &year);
+    date = input_date(date);
+    struct Date lastDayLastYear;
+    lastDayLastYear.day = 31;
+    lastDayLastYear.month = 12;
+    lastDayLastYear.year = date.year - 1;
+    struct Date firstDayNextYear;
+    firstDayNextYear.day = 1;
+    firstDayNextYear.month = 1;
+    firstDayNextYear.year = date.year + 1;
     
     //Ausgabe der Berechnungea
-    printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", day, month, year, day_of_the_year(day, month, year));
+    printf("Der %i.%i.%i ist der %i. Tag des Jahres.\n", date.day, date.month, date.year, day_of_the_year(date));
     printf("Kalenderwoche: ");
     
-    if (number_of_the_week(day, month, year) == 0) {
-        int weekLastYear = number_of_the_week(31, 12, (year - 1));
-        printf("%i (%i. Woche Vorjahr)\n",number_of_the_week(day, month, year), weekLastYear);
-    } else if (number_of_the_week(day, month, year) == -1) {
-        printf("%i (naechstes Jahr)\n", number_of_the_week(1, 1, year + 1));
+    if (number_of_the_week(date) == 0) {
+        int weekLastYear = number_of_the_week(lastDayLastYear);
+        printf("%i (%i. Woche Vorjahr)\n",number_of_the_week(date), weekLastYear);
+    } else if (number_of_the_week(date) == -1) {
+        printf("%i (naechstes Jahr)\n", number_of_the_week(firstDayNextYear));
     } else {
-        printf("%i \n", number_of_the_week(day, month, year));
+        printf("%i \n", number_of_the_week(date));
     }
     printf("Wochentag: ");
-    format_day(day_of_the_week(day, month, year));
+    format_day(day_of_the_week(date));
 
     
     return 0;
