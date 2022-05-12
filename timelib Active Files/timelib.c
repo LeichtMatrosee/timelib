@@ -58,7 +58,7 @@ int get_days_for_month(struct Date date) {
     int daysInMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     
     //Überprüfung, ob Jahr gültig ist (wann ein Jahr gültig ist aus dem Kontext anderer Funktionen erarbeitet)
-    if (date.year < 1528) {
+    if (date.year < 1528 || (date.month < 1 || date.month > 12)) {
         return -1;
     }
 
