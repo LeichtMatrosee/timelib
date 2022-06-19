@@ -1,0 +1,3 @@
+- name: Doxygen Action
+  uses: mattnotmitt/doxygen-action@1.9.4
+  workingdirectory: ./timelib Active Files

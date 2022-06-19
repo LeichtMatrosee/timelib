@@ -8,7 +8,7 @@ Timelibrary von Gerrit Koppe
 | 26.04.2022 | Gerrit Koppe      | 1.2     | Einfügen weiterer Funktionalitäten |
 | 26.04.2022 | Gerrit Koppe      | 2.0     | Auslagern der Funktionen in Library |
 | 28.04.2022 | Gerrit Koppe      | 2.1     | Es läuft!           |
-| 28.04.2022 | Gerrit Koppe      | 2.1.1     | Es läuft tatsächlich nicht... |
+| 28.04.2022 | Gerrit Koppe      | 2.1.1   | Es läuft tatsächlich nicht... |
 | 30.04.2022 | Gerrit Koppe      | 2.2     | ES LÄUFT!           |
 | 10.05.2022 | Gerrit Koppe      | 3.0     | Refactored mit Strukturen |
 

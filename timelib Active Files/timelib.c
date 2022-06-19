@@ -11,6 +11,7 @@ void clearBuffer() {
         continue;
     };
 }
+
 /**
  * @brief Überprüft, ob ein Jahr ein Schaltjahr ist
  * 
