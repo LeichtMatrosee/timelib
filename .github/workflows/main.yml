@@ -27,4 +27,7 @@ jobs:
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@1.9.4
         with:
-          working-directory: C:\Users\gkoppe\Desktop\King of Ordners\Git Repos\timelib\README.md
+              working-directory: './timelib Active Files'
+              doxyfile-path: 'docs'
+              enable-latex: false
+
