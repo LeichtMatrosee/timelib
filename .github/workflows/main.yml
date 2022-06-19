@@ -26,13 +26,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@1.9.4
-<<<<<<< HEAD
         with: 
           working-directory: 'timelib Active Files/'
           doxyfile-path: 'DoxyFile/'
-=======
-        with:
-          doxyfile-path: ./Doxyfile
-          working-directory: ./timelib Active Files
-          enable-latex: false
->>>>>>> 78db55a63a088b3b0cc592a241a6cb727af604be
